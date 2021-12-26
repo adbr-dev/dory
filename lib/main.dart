@@ -13,8 +13,13 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'GmarketSansTTF',
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      builder: (context, child) => MediaQuery(
+        child: child!,
+        data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+      ),
     );
   }
 }
@@ -52,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 40),
             ),
           ],
         ),
