@@ -1,13 +1,15 @@
 import 'dart:io';
 
-import 'package:dory/components/dory_colors.dart';
-import 'package:dory/components/dory_constants.dart';
-import 'package:dory/components/dory_widgets.dart';
-import 'package:dory/services/add_medicine_serivce.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../components/dory_colors.dart';
+import '../../components/dory_constants.dart';
+import '../../components/dory_widgets.dart';
+import '../../main.dart';
+import '../../services/add_medicine_serivce.dart';
+import '../../services/dory_file_service.dart';
 import 'components/add_page_widget.dart';
 
 class AddAlarmPage extends StatelessWidget {
@@ -46,7 +48,26 @@ class AddAlarmPage extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: BottomSubmitButton(
-        onPressed: () {},
+        onPressed: () async {
+          bool result = false;
+
+          // 1. add alarm
+          for (var alarm in service.alarms) {
+            result = await notification.addNotifcication(
+              alarmTimeStr: alarm,
+              title: '$alarm 약 먹을 시간이예요!',
+              body: '$medicineName 복약했다고 알려주세요!',
+            );
+          }
+
+          if (!result) {
+            showPermissionDenied(context, permission: '알람');
+          }
+
+          // 2. save image (local dir)
+
+          // 3. add medicine model (local DB, hive)
+        },
         text: '완료',
       ),
     );
