@@ -65,6 +65,10 @@ class AddAlarmPage extends StatelessWidget {
           }
 
           // 2. save image (local dir)
+          String? imageFilePath;
+          if (medicineImage != null) {
+            imageFilePath = await saveImageToLocalDirectory(medicineImage!);
+          }
 
           // 3. add medicine model (local DB, hive)
         },
