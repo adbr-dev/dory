@@ -38,6 +38,9 @@ dependencies:
   # get image
   image_picker: ^0.8.4+4
 
+  # datetime formatting
+  intl: ^0.17.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
