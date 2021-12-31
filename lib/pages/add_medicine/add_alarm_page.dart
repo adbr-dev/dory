@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dory/models/medicine.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -54,6 +55,7 @@ class AddAlarmPage extends StatelessWidget {
           // 1. add alarm
           for (var alarm in service.alarms) {
             result = await notification.addNotifcication(
+              medicineId: medicineRepository.newId,
               alarmTimeStr: alarm,
               title: '$alarm 약 먹을 시간이예요!',
               body: '$medicineName 복약했다고 알려주세요!',
@@ -61,7 +63,7 @@ class AddAlarmPage extends StatelessWidget {
           }
 
           if (!result) {
-            showPermissionDenied(context, permission: '알람');
+            return showPermissionDenied(context, permission: '알람');
           }
 
           // 2. save image (local dir)
@@ -71,6 +73,15 @@ class AddAlarmPage extends StatelessWidget {
           }
 
           // 3. add medicine model (local DB, hive)
+          final medicine = Medicine(
+            id: medicineRepository.newId,
+            name: medicineName,
+            imagePath: imageFilePath,
+            alarms: service.alarms.toList(),
+          );
+          medicineRepository.addMedicine(medicine);
+
+          Navigator.popUntil(context, (route) => route.isFirst);
         },
         text: '완료',
       ),

@@ -37,6 +37,7 @@ class DoryNotificationService {
   }
 
   Future<bool> addNotifcication({
+    required int medicineId,
     required String alarmTimeStr,
     required String title, // HH:mm 약 먹을 시간이예요!
     required String body, // {약이름} 복약했다고 알려주세요!
@@ -55,7 +56,8 @@ class DoryNotificationService {
         : now.day;
 
     /// id
-    final alarmTimeId = alarmTimeStr.replaceAll(':', '');
+    String alarmTimeId = alarmTimeStr.replaceAll(':', '');
+    alarmTimeId = medicineId.toString() + alarmTimeId;
 
     /// add schedule notification
     final details = _notificationDetails(

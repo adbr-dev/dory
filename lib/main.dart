@@ -1,14 +1,21 @@
 import 'package:dory/components/dory_themes.dart';
 import 'package:dory/pages/home_page.dart';
+import 'package:dory/repositories/dory_hive.dart';
+import 'package:dory/repositories/medicine_repository.dart';
 import 'package:dory/services/dory_notification_serivce.dart';
 import 'package:flutter/material.dart';
 
 final notification = DoryNotificationService();
-void main() {
+final hive = DoryHive();
+final medicineRepository = MedicineRepository();
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  notification.initializeTimeZone();
-  notification.initializeNotification();
+  await notification.initializeTimeZone();
+  await notification.initializeNotification();
+
+  await hive.initializeHive();
 
   runApp(const MyApp());
 }
