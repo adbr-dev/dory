@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final _pages = [
-    TodayPage(),
+    const TodayPage(),
     const HistoryPage(),
   ];
 
