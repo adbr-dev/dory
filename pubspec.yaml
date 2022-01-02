@@ -38,6 +38,25 @@ dependencies:
   # get image
   image_picker: ^0.8.4+4
 
+  # datetime formatting
+  intl: ^0.17.0
+
+  # local notification
+  flutter_local_notifications: ^9.1.5
+  timezone: ^0.8.0
+  flutter_native_timezone: ^2.0.0
+
+  # permission -> show setting
+  permission_handler: ^8.3.0
+
+  # file path
+  path_provider: ^2.0.8
+
+  # hive
+  hive: ^2.0.5
+  hive_flutter: ^1.1.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,6 +67,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+
+  # hive  
+  hive_generator: ^1.1.1
+  build_runner: ^2.1.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
