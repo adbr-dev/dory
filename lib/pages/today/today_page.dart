@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/medicine.dart';
+import '../../models/medicine_history.dart';
 
 class TodayPage extends StatelessWidget {
   const TodayPage({Key? key}) : super(key: key);
@@ -136,8 +137,16 @@ class MedicineListTile extends StatelessWidget {
                         builder: (context) => TimeSettingBottomSheet(
                           initialTime: medicineAlarm.alarmTime,
                         ),
-                      ).then((value) {
-                        print(value);
+                      ).then((takeDateTime) {
+                        if (takeDateTime == null || takeDateTime is! DateTime) {
+                          return;
+                        }
+
+                        historyRepository.addHistory(MedicineHistory(
+                          medicineId: medicineAlarm.id,
+                          alarmTime: medicineAlarm.alarmTime,
+                          takeTime: takeDateTime,
+                        ));
                       });
                     },
                     title: '아까',
