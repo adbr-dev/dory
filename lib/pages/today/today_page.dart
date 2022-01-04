@@ -4,6 +4,7 @@ import 'package:dory/components/dory_constants.dart';
 import 'package:dory/components/dory_page_route.dart';
 import 'package:dory/main.dart';
 import 'package:dory/models/medicine_alarm.dart';
+import 'package:dory/pages/today/today_empty_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -23,14 +24,12 @@ class TodayPage extends StatelessWidget {
           style: Theme.of(context).textTheme.headline4,
         ),
         const SizedBox(height: regularSpace),
-        const Divider(height: 1, thickness: 2.0),
         Expanded(
           child: ValueListenableBuilder(
             valueListenable: medicineRepository.medicineBox.listenable(),
             builder: _builderMedicineListView,
           ),
         ),
-        const Divider(height: 1, thickness: 2.0),
       ],
     );
   }
@@ -38,6 +37,10 @@ class TodayPage extends StatelessWidget {
   Widget _builderMedicineListView(context, Box<Medicine> box, _) {
     final medicines = box.values.toList();
     final medicineAlarms = <MedicineAlarm>[];
+
+    if (medicines.isEmpty) {
+      return const TodayEmpty();
+    }
 
     for (var medicine in medicines) {
       for (var alarm in medicine.alarms) {
@@ -51,19 +54,27 @@ class TodayPage extends StatelessWidget {
       }
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: smallSpace),
-      itemCount: medicineAlarms.length,
-      itemBuilder: (context, index) {
-        return MedicineListTile(
-          medicineAlarm: medicineAlarms[index],
-        );
-      },
-      separatorBuilder: (context, index) {
-        return const Divider(
-          height: regularSpace,
-        );
-      },
+    return Column(
+      children: [
+        const Divider(height: 1, thickness: 1.0),
+        Expanded(
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(vertical: smallSpace),
+            itemCount: medicineAlarms.length,
+            itemBuilder: (context, index) {
+              return MedicineListTile(
+                medicineAlarm: medicineAlarms[index],
+              );
+            },
+            separatorBuilder: (context, index) {
+              return const Divider(
+                height: regularSpace,
+              );
+            },
+          ),
+        ),
+        const Divider(height: 1, thickness: 1.0),
+      ],
     );
   }
 }
