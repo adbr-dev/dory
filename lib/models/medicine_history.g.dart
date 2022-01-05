@@ -1,41 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'medicine.dart';
+part of 'medicine_history.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class MedicineAdapter extends TypeAdapter<Medicine> {
+class MedicineHistoryAdapter extends TypeAdapter<MedicineHistory> {
   @override
-  final int typeId = 1;
+  final int typeId = 2;
 
   @override
-  Medicine read(BinaryReader reader) {
+  MedicineHistory read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Medicine(
-      id: fields[0] as int,
-      name: fields[1] as String,
-      imagePath: fields[2] as String?,
-      alarms: (fields[3] as List).cast<String>(),
+    return MedicineHistory(
+      medicineId: fields[0] as int,
+      alarmTime: fields[1] as String,
+      takeTime: fields[2] as DateTime,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Medicine obj) {
+  void write(BinaryWriter writer, MedicineHistory obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.name)
-      ..writeByte(2)
-      ..write(obj.imagePath)
       ..writeByte(3)
-      ..write(obj.alarms);
+      ..writeByte(0)
+      ..write(obj.medicineId)
+      ..writeByte(1)
+      ..write(obj.alarmTime)
+      ..writeByte(2)
+      ..write(obj.takeTime);
   }
 
   @override
@@ -44,7 +41,7 @@ class MedicineAdapter extends TypeAdapter<Medicine> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MedicineAdapter &&
+      other is MedicineHistoryAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

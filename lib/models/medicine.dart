@@ -1,9 +1,9 @@
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 part 'medicine.g.dart';
 
 @HiveType(typeId: 1)
-class Medicine {
+class Medicine extends HiveObject {
   Medicine({
     required this.id,
     required this.name,
