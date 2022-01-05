@@ -1,15 +1,14 @@
 import 'dart:io';
 
-import 'package:dory/models/medicine_alarm.dart';
 import 'package:flutter/material.dart';
 
 class ImageDetailPage extends StatelessWidget {
   const ImageDetailPage({
     Key? key,
-    required this.medicineAlarm,
+    required this.imagePath,
   }) : super(key: key);
 
-  final MedicineAlarm medicineAlarm;
+  final String imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class ImageDetailPage extends StatelessWidget {
       ),
       body: Center(
         child: Image.file(
-          File(medicineAlarm.imagePath!),
+          File(imagePath),
         ),
       ),
     );
