@@ -51,12 +51,16 @@ class BeforeTakeTile extends StatelessWidget {
           Text('${medicineAlarm.name},', style: textStyle),
           TileActionButton(
             onTap: () {
-              historyRepository.addHistory(MedicineHistory(
-                medicineId: medicineAlarm.id,
-                medicineKey: medicineAlarm.key,
-                alarmTime: medicineAlarm.alarmTime,
-                takeTime: DateTime.now(),
-              ));
+              historyRepository.addHistory(
+                MedicineHistory(
+                  medicineId: medicineAlarm.id,
+                  medicineKey: medicineAlarm.key,
+                  alarmTime: medicineAlarm.alarmTime,
+                  takeTime: DateTime.now(),
+                  imagePath: medicineAlarm.imagePath,
+                  name: medicineAlarm.name,
+                ),
+              );
             },
             title: '지금',
           ),
@@ -82,12 +86,16 @@ class BeforeTakeTile extends StatelessWidget {
         return;
       }
 
-      historyRepository.addHistory(MedicineHistory(
-        medicineId: medicineAlarm.id,
-        alarmTime: medicineAlarm.alarmTime,
-        takeTime: takeDateTime,
-        medicineKey: medicineAlarm.key,
-      ));
+      historyRepository.addHistory(
+        MedicineHistory(
+          medicineId: medicineAlarm.id,
+          alarmTime: medicineAlarm.alarmTime,
+          takeTime: takeDateTime,
+          medicineKey: medicineAlarm.key,
+          imagePath: medicineAlarm.imagePath,
+          name: medicineAlarm.name,
+        ),
+      );
     });
   }
 }
@@ -195,6 +203,8 @@ class AfterTakeTile extends StatelessWidget {
           alarmTime: medicineAlarm.alarmTime,
           takeTime: takeDateTime,
           medicineKey: medicineAlarm.key,
+          imagePath: medicineAlarm.imagePath,
+          name: medicineAlarm.name,
         ),
       );
     });
