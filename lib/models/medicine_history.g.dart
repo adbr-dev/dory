@@ -20,19 +20,22 @@ class MedicineHistoryAdapter extends TypeAdapter<MedicineHistory> {
       medicineId: fields[0] as int,
       alarmTime: fields[1] as String,
       takeTime: fields[2] as DateTime,
+      medicineKey: fields[3] == null ? -1 : fields[3] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, MedicineHistory obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.medicineId)
       ..writeByte(1)
       ..write(obj.alarmTime)
       ..writeByte(2)
-      ..write(obj.takeTime);
+      ..write(obj.takeTime)
+      ..writeByte(3)
+      ..write(obj.medicineKey);
   }
 
   @override

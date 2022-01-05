@@ -5,6 +5,7 @@ import 'package:dory/repositories/medicine_history_repository.dart';
 import 'package:dory/repositories/medicine_repository.dart';
 import 'package:dory/services/dory_notification_serivce.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 final notification = DoryNotificationService();
 final hive = DoryHive();
@@ -13,6 +14,8 @@ final historyRepository = MedicineHistoryRepository();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDateFormatting();
 
   await notification.initializeTimeZone();
   await notification.initializeNotification();

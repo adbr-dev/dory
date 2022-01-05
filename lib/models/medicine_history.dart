@@ -8,6 +8,7 @@ class MedicineHistory extends HiveObject {
     required this.medicineId,
     required this.alarmTime,
     required this.takeTime,
+    required this.medicineKey,
   });
 
   @HiveField(0)
@@ -19,8 +20,11 @@ class MedicineHistory extends HiveObject {
   @HiveField(2)
   final DateTime takeTime;
 
+  @HiveField(3, defaultValue: -1)
+  final int medicineKey;
+
   @override
   String toString() {
-    return '{medicineId: $medicineId, alarmTime: $alarmTime, takeTime: $takeTime}';
+    return '{medicineId: $medicineId, alarmTime: $alarmTime, takeTime: $takeTime, medicineKey:$medicineKey}';
   }
 }
