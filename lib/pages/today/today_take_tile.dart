@@ -4,6 +4,7 @@ import 'package:dory/components/dory_constants.dart';
 import 'package:dory/components/dory_page_route.dart';
 import 'package:dory/models/medicine_alarm.dart';
 import 'package:dory/models/medicine_history.dart';
+import 'package:dory/pages/add_medicine/add_medicine_page.dart';
 import 'package:dory/pages/bottomsheet/more_action_bottomsheet.dart';
 import 'package:dory/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter/cupertino.dart';
@@ -227,7 +228,14 @@ class _MoreButton extends StatelessWidget {
         showModalBottomSheet(
           context: context,
           builder: (context) => MoreActionBottomSheet(
-            onPressedModify: () {},
+            onPressedModify: () {
+              Navigator.push(
+                context,
+                FadePageRoute(
+                  page: AddMedicinePage(updateMedicineId: medicineAlarm.id),
+                ),
+              ).then((_) => Navigator.maybePop(context));
+            },
             onPressedDeleteOnlyMedicine: () {
               // 1. 알람 삭제
               notification.deleteMultipleAlarm(alarmIds);

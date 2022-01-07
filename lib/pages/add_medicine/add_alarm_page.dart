@@ -12,17 +12,22 @@ import '../../services/dory_file_service.dart';
 import '../bottomsheet/time_setting_bottomsheet.dart';
 import 'components/add_page_widget.dart';
 
+// ignore: must_be_immutable
 class AddAlarmPage extends StatelessWidget {
   AddAlarmPage({
     Key? key,
     required this.medicineImage,
     required this.medicineName,
-  }) : super(key: key);
+    required this.updateMedicineId,
+  }) : super(key: key) {
+    service = AddMedicineService(updateMedicineId);
+  }
 
+  final int updateMedicineId;
   final File? medicineImage;
   final String medicineName;
 
-  final service = AddMedicineService();
+  late AddMedicineService service;
 
   @override
   Widget build(BuildContext context) {
