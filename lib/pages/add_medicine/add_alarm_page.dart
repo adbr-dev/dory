@@ -54,43 +54,107 @@ class AddAlarmPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomSubmitButton(
         onPressed: () async {
-          bool result = false;
+          final isUpdate = updateMedicineId != -1;
 
-          // 1. add alarm
-          for (var alarm in service.alarms) {
-            result = await notification.addNotifcication(
-              medicineId: medicineRepository.newId,
-              alarmTimeStr: alarm,
-              title: '$alarm 약 먹을 시간이예요!',
-              body: '$medicineName 복약했다고 알려주세요!',
-            );
-          }
-
-          if (!result) {
-            return showPermissionDenied(context, permission: '알람');
-          }
-
-          // 2. save image (local dir)
-          String? imageFilePath;
-          if (medicineImage != null) {
-            imageFilePath = await saveImageToLocalDirectory(medicineImage!);
-          }
-
-          // 3. add medicine model (local DB, hive)
-          final medicine = Medicine(
-            id: medicineRepository.newId,
-            name: medicineName,
-            imagePath: imageFilePath,
-            alarms: service.alarms.toList(),
-          );
-          medicineRepository.addMedicine(medicine);
-
-          Navigator.popUntil(context, (route) => route.isFirst);
+          isUpdate
+              ? await _onUpdateMedicine(context)
+              : await _onAddMedicine(context);
         },
         text: '완료',
       ),
     );
   }
+
+  Future<void> _onAddMedicine(BuildContext context) async {
+    bool result = false;
+
+    // 1. add alarm
+    for (var alarm in service.alarms) {
+      result = await notification.addNotifcication(
+        medicineId: medicineRepository.newId,
+        alarmTimeStr: alarm,
+        title: '$alarm 약 먹을 시간이예요!',
+        body: '$medicineName 복약했다고 알려주세요!',
+      );
+    }
+
+    if (!result) {
+      return showPermissionDenied(context, permission: '알람');
+    }
+
+    // 2. save image (local dir)
+    String? imageFilePath;
+    if (medicineImage != null) {
+      imageFilePath = await saveImageToLocalDirectory(medicineImage!);
+    }
+
+    // 3. add medicine model (local DB, hive)
+    final medicine = Medicine(
+      id: medicineRepository.newId,
+      name: medicineName,
+      imagePath: imageFilePath,
+      alarms: service.alarms.toList(),
+    );
+    medicineRepository.addMedicine(medicine);
+
+    Navigator.popUntil(context, (route) => route.isFirst);
+  }
+
+  Future<void> _onUpdateMedicine(BuildContext context) async {
+    bool result = false;
+
+    // 1-1. delete previous alarm
+    final alarmIds = _updateMedicine.alarms.map(
+      (alarmTime) => notification.alarmId(updateMedicineId, alarmTime),
+    );
+    await notification.deleteMultipleAlarm(alarmIds);
+
+    // 1-2. add alarm
+    for (var alarm in service.alarms) {
+      result = await notification.addNotifcication(
+        medicineId: updateMedicineId,
+        alarmTimeStr: alarm,
+        title: '$alarm 약 먹을 시간이예요!',
+        body: '$medicineName 복약했다고 알려주세요!',
+      );
+    }
+
+    if (!result) {
+      return showPermissionDenied(context, permission: '알람');
+    }
+
+    String? imageFilePath = _updateMedicine.imagePath;
+    if (_updateMedicine.imagePath != medicineImage?.path) {
+      // 2-1. delete previous image
+      if (_updateMedicine.imagePath != null) {
+        deleteImage(_updateMedicine.imagePath!);
+      }
+
+      // 2-2. save image (local dir)
+      if (medicineImage != null) {
+        imageFilePath = await saveImageToLocalDirectory(medicineImage!);
+      }
+    }
+
+    // 3. update medicine  (local DB, hive)
+    final medicine = Medicine(
+      id: updateMedicineId,
+      name: medicineName,
+      imagePath: imageFilePath,
+      alarms: service.alarms.toList(),
+    );
+    medicineRepository.updateMedicine(
+      key: _updateMedicine.key,
+      medicine: medicine,
+    );
+
+    Navigator.popUntil(context, (route) => route.isFirst);
+  }
+
+  Medicine get _updateMedicine =>
+      medicineRepository.medicineBox.values.singleWhere(
+        (medicine) => medicine.id == updateMedicineId,
+      );
 
   List<Widget> get alarmWidgets {
     final children = <Widget>[];
