@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 
 import '../../components/dory_constants.dart';
 import '../../main.dart';
@@ -51,6 +52,12 @@ class TodayPage extends StatelessWidget {
         ));
       }
     }
+
+    medicineAlarms.sort(
+      (a, b) => DateFormat('HH:mm').parse(a.alarmTime).compareTo(
+            DateFormat('HH:mm').parse(b.alarmTime),
+          ),
+    );
 
     return Column(
       children: [
