@@ -4,6 +4,8 @@ import 'package:dory/components/dory_constants.dart';
 import 'package:dory/components/dory_page_route.dart';
 import 'package:dory/models/medicine_alarm.dart';
 import 'package:dory/models/medicine_history.dart';
+import 'package:dory/pages/add_medicine/add_medicine_page.dart';
+import 'package:dory/pages/bottomsheet/more_action_bottomsheet.dart';
 import 'package:dory/pages/bottomsheet/time_setting_bottomsheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -223,10 +225,57 @@ class _MoreButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       onPressed: () {
-        medicineRepository.deleteMedicine(medicineAlarm.key);
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => MoreActionBottomSheet(
+            onPressedModify: () {
+              Navigator.push(
+                context,
+                FadePageRoute(
+                  page: AddMedicinePage(updateMedicineId: medicineAlarm.id),
+                ),
+              ).then((_) => Navigator.maybePop(context));
+            },
+            onPressedDeleteOnlyMedicine: () {
+              // 1. 알람 삭제
+              notification.deleteMultipleAlarm(alarmIds);
+              // 2. hive 데이터 삭제
+              medicineRepository.deleteMedicine(medicineAlarm.key);
+              // 3. pop
+              Navigator.pop(context);
+            },
+            onPressedDeleteAll: () {
+              // 1. 알람 삭제
+              notification.deleteMultipleAlarm(alarmIds);
+              // 2. hive history 데이터 삭제
+              historyRepository.deleteAllHistory(keys);
+              // 2. hive medicine 데이터 삭제
+              medicineRepository.deleteMedicine(medicineAlarm.key);
+              // 3. pop
+              Navigator.pop(context);
+            },
+          ),
+        );
       },
       child: const Icon(CupertinoIcons.ellipsis_vertical),
     );
+  }
+
+  List<String> get alarmIds {
+    final medicine = medicineRepository.medicineBox.values
+        .singleWhere((element) => element.id == medicineAlarm.id);
+    final alarmIds = medicine.alarms
+        .map((alarmStr) => notification.alarmId(medicineAlarm.id, alarmStr))
+        .toList();
+    return alarmIds;
+  }
+
+  Iterable<int> get keys {
+    final histories = historyRepository.historyBox.values.where((histroy) =>
+        histroy.medicineId == medicineAlarm.id &&
+        histroy.medicineKey == medicineAlarm.key);
+    final keys = histories.map((e) => e.key as int);
+    return keys;
   }
 }
 
