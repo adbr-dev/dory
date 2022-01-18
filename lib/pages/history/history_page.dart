@@ -1,3 +1,4 @@
+import 'package:dory/pages/today/history_empty_widget.dart';
 import 'package:dory/pages/today/today_take_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -34,6 +35,10 @@ class HistoryPage extends StatelessWidget {
 
   Widget _buildListView(context, Box<MedicineHistory> historyBox, _) {
     final histories = historyBox.values.toList().reversed.toList();
+    if (histories.isEmpty) {
+      return const HistoryEmpty();
+    }
+
     return ListView.builder(
       itemCount: histories.length,
       itemBuilder: (context, index) {
