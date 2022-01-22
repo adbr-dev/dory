@@ -31,11 +31,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: DoryThemes.lightTheme,
       home: const HomePage(),
       builder: (context, child) => MediaQuery(
-        child: child!,
+        child: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: child!,
+        ),
         data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       ),
     );
