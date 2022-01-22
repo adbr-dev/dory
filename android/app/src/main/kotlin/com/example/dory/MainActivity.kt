@@ -1,4 +1,4 @@
-package com.example.dory
+package com.adbr.dory
 
 import io.flutter.embedding.android.FlutterActivity
 
