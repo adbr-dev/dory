@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>촬영을 위해 카메라 접근 권한이 필요해요.</string>
+	<string>약 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>사진 등록을 위해 갤러리 접근 권한이 필요해요.</string>
+	<string>약 사진을 추가하기 위해 갤러리 접근 권한이 필요합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
