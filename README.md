@@ -1,16 +1,8 @@
 # dory
 
-A new Flutter project.
+![app graphic image2](https://user-images.githubusercontent.com/51875059/151555278-55470693-8096-40a9-b744-f797036f2f1c.png)
 
-## Getting Started
+* [Android (Google Play Store)](https://play.google.com/store/apps/details?id=com.adbr.dory)
+* [iOS (App Store)](https://apps.apple.com/us/app/%EC%9E%8A%EC%A7%80%EB%A7%88%EC%95%BD-%EC%95%BD-%EC%95%8C%EB%A6%BC%EA%B3%BC-%EB%B3%B5%EC%95%BD-%EA%B8%B0%EB%A1%9D-%EA%B4%80%EB%A6%AC/id1606537083)
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
